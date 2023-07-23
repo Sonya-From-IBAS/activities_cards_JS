@@ -15,7 +15,7 @@ async function getActivities(){
         return activities;
     }
     catch(e){
-        return e.message;
+        throw e;
     }
 }
 
@@ -31,22 +31,27 @@ function clearActivities(){
 }
 
 async function displayActivities(){
-    const activities = await getActivities();
-    if(!Array.isArray(activities)){
-        throw new Error('activities have not founded');
+    try{
+        const activities = await getActivities(); 
+        if(!Array.isArray(activities)){
+            throw new Error('activities have not founded');
+        }
+        const [firstActivity, secondActivity, thirdActivity] = activities
+        clearActivities();
+        const cards = document.createElement('div')
+        cards.classList.add('cards');
+        cards.innerHTML = 
+        `
+        <div class="card"><div class="card__text">${firstActivity}</div></div>
+        <div class="card"><div class="card__text">${secondActivity}</div></div>
+        <div class="card"><div class="card__text">${thirdActivity}</div></div>
+        `
+        console.log(htmlElements.container)
+        htmlElements.container.appendChild(cards);
     }
-    const [firstActivity, secondActivity, thirdActivity] = activities
-    clearActivities();
-    const cards = document.createElement('div')
-    cards.classList.add('cards');
-    cards.innerHTML = 
-    `
-    <div class="card"><div class="card__text">${firstActivity}</div></div>
-    <div class="card"><div class="card__text">${secondActivity}</div></div>
-    <div class="card"><div class="card__text">${thirdActivity}</div></div>
-    `
-    console.log(htmlElements.container)
-    htmlElements.container.appendChild(cards);
+    catch(e){
+        throw e;
+    }
 }
 
 async function main(){

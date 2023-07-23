@@ -62,4 +62,3 @@ async function main(){
     }
 }
 
-htmlElements.button.addEventListener('click', main);

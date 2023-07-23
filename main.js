@@ -5,17 +5,23 @@ const htmlElements = {
     
 }
 
+async function getActivity(){
+    const {activity} = await (await fetch(htmlElements.url)).json();
+    return activity;
+}
+
 async function getActivities(){
     try{
         let activities = []
-        for(let i = 0; i<3; i++){
-            const {activity} = await (await fetch(htmlElements.url)).json()
-            activities.push(activity)
-        }
+        await Promise.all([
+            activities.push(await getActivity()),
+            activities.push(await getActivity()),
+            activities.push(await getActivity())
+        ])
         return activities;
     }
     catch(e){
-        throw e;
+        return e.message;
     }
 }
 
